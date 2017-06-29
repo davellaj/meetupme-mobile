@@ -3,18 +3,18 @@ import React from 'react';
 import { StyleSheet,
   Text,
   View,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
-import { fetchMeetups } from './constants/api'
+import { fetchMeetups } from './constants/api';
 
 class App extends React.Component {
   static defaultProps = {
-    fetchMeetups
+    fetchMeetups,
   }
 
   state = {
     loading: false,
-    meetups: []
+    meetups: [],
   }
   async componentDidMount() {
     this.setState({ loading: true });
@@ -23,20 +23,20 @@ class App extends React.Component {
   }
 
   render() {
-    if(this.state.loading) {
+    if (this.state.loading) {
       return (
         <View style={styles.container}>
           <ActivityIndicator size="large" />
         </View>
-      )
+      );
     }
     return (
       <View style={styles.container}>
         <Text>MeetupMe</Text>
 
-      {this.state.meetups.map((meetup, i) => (
-        <Text key={i}>{meetup.title}</Text>
-      ))}
+        {this.state.meetups.map((meetup, i) => (
+          <Text key={i}>{meetup.title}</Text>
+        ))}
       </View>
     );
   }
