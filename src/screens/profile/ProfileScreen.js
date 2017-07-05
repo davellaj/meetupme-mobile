@@ -3,14 +3,14 @@ import { View, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 // import Colors from '../../../constants/Colors';
 
-class NotificationsScreen extends Component {
+class ProfileScreen extends Component {
   static navigationOptions = {
     // header: () => ({
     //   style: { backgroundColor: Colors.redColor },
     // }),
     tabBarIcon: ({ tintColor }) => (
       <MaterialIcons
-        name="notifications"
+        name="account-circle"
         size={25}
         color={tintColor}
       />
@@ -20,10 +20,10 @@ class NotificationsScreen extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <Text>Notifications</Text>
+        <Text>ProfileScreen</Text>
       </View>
     );
   }
 }
 
-export default NotificationsScreen;
+export default ProfileScreen;
