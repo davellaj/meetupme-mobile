@@ -4,7 +4,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { MeetupApi } from '../../../constants/api';
 import { LoadingScreen } from '../../commons';
 import { MyMeetupsList } from './components';
-// import Colors from '../../../constants/Colors';
+import Colors from '../../../constants/Colors';
 import styles from './styles/HomeScreen';
 
 const meetupApi = new MeetupApi();
@@ -15,9 +15,7 @@ class HomeScreen extends Component {
   }
 
   static navigationOptions = {
-    // header: () => ({
-    //   style: { backgroundColor: Colors.redColor },
-    // }),
+    headerStyle: { backgroundColor: Colors.redColor },
     tabBarIcon: ({ tintColor }) => (
       <FontAwesome
         name="home"
@@ -33,13 +31,11 @@ class HomeScreen extends Component {
   }
 
   async componentDidMount() {
-    // console.log(typeof this.props.meetupApi.fetchGroupMeetups());
     this.setState({ loading: true });
     const meetups = await this.props.meetupApi.fetchGroupMeetups();
     this.setState({ loading: false, meetups });
   }
   render() {
-    // console.log(this.state.loading);
     if (this.state.loading) {
       return <LoadingScreen />;
     }

@@ -10,12 +10,10 @@ const styles = EStyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'red',
 
   },
   bottonContainer: {
-    flex: 0.8,
-    // backgroundColor: 'blue',
+    flex: 0.9,
   },
 });
 
