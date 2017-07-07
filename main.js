@@ -1,9 +1,13 @@
 import Expo from 'expo';
 import React from 'react';
+import { Provider } from 'react-redux';
 import EStyleSheet from 'react-native-extended-stylesheet';
+
+import Root from './src/Root';
+
 import Colors from './constants/Colors';
 import { cachedFonts } from './helpers';
-import Root from './src/Root';
+import store from './src/redux/store';
 
 EStyleSheet.build(Colors);
 
@@ -39,7 +43,11 @@ class App extends React.Component {
     if (!this.state.fontLoaded) {
       return <Expo.AppLoading />;
     }
-    return <Root />;
+    return (
+      <Provider store={store}>
+        <Root />
+      </Provider>
+    );
   }
 }
 

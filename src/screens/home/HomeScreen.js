@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import { connect } from 'react-redux';
 import { FontAwesome } from '@expo/vector-icons';
-import { MeetupApi } from '../../../constants/api';
+
 import { LoadingScreen } from '../../commons';
 import { MyMeetupsList } from './components';
+
+import { fetchMyMeetup } from './actions';
 import Colors from '../../../constants/Colors';
 import styles from './styles/HomeScreen';
 
-const meetupApi = new MeetupApi();
-
+@connect(null, { fetchMyMeetup })
 class HomeScreen extends Component {
-  static defaultProps = {
-    meetupApi,
-  }
-
   static navigationOptions = {
     headerStyle: { backgroundColor: Colors.redColor },
     tabBarIcon: ({ tintColor }) => (
@@ -25,15 +23,8 @@ class HomeScreen extends Component {
     ),
   }
 
-  state = {
-    loading: false,
-    meetups: [],
-  }
-
-  async componentDidMount() {
-    this.setState({ loading: true });
-    const meetups = await this.props.meetupApi.fetchGroupMeetups();
-    this.setState({ loading: false, meetups });
+  componentDidMount() {
+    this.props.fetchMeetups();
   }
   render() {
     if (this.state.loading) {
