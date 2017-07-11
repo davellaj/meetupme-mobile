@@ -6,11 +6,17 @@ import { FontAwesome } from '@expo/vector-icons';
 import { LoadingScreen } from '../../commons';
 import { MyMeetupsList } from './components';
 
-import { fetchMyMeetup } from './actions';
+import { fetchMyMeetups } from './actions';
 import Colors from '../../../constants/Colors';
 import styles from './styles/HomeScreen';
 
-@connect(null, { fetchMyMeetup })
+@connect(
+  state => ({
+    myMeetups: state.home.myMeetups,
+  }),
+  { fetchMyMeetups }
+)
+
 class HomeScreen extends Component {
   static navigationOptions = {
     headerStyle: { backgroundColor: Colors.redColor },
@@ -24,19 +30,34 @@ class HomeScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchMeetups();
+    this.props.fetchMyMeetups();
   }
   render() {
-    if (this.state.loading) {
+    const {
+      myMeetups: {
+        isFetched,
+        data,
+        error,
+      },
+    } = this.props;
+
+    if (!isFetched) {
       return <LoadingScreen />;
+    } else if (error.on) {
+      return (
+        <View>
+          <Text>{error.message}</Text>
+        </View>
+      );
     }
+
     return (
       <View style={styles.root}>
         <View style={styles.topContainer}>
           <Text>HomeScreen</Text>
         </View>
         <View style={styles.bottonContainer}>
-          <MyMeetupsList meetups={this.state.meetups} />
+          <MyMeetupsList meetups={data} />
         </View>
       </View>
     );

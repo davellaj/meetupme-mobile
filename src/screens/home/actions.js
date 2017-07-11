@@ -1,10 +1,10 @@
 import { MeetupApi } from '../../../constants/api';
 
-const MeetupApi = new MeetupApi();
+const meetupApi = new MeetupApi();
 
-const FETCH_MY_MEETUPS = 'FETCH_MY_MEETUPS';
+export const FETCH_MY_MEETUPS = 'FETCH_MY_MEETUPS';
 
-export const fetchMyMeetup = () => ({
+export const fetchMyMeetups = () => ({
   type: FETCH_MY_MEETUPS,
-  payload: MeetupApi.fetchGroupMeetups,
+  payload: meetupApi.fetchGroupMeetups(),
 });
