@@ -18,7 +18,7 @@ export default TabNavigator({
     screen: ProfileScreen,
   },
 }, {
-  swipeEnabled: true,
+  swipeEnabled: false,
   animationEnabled: true,
   tabBarPosition: 'bottom',
   tabBarOptions: {
