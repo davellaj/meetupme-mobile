@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 import { LoadingScreen } from '../../commons';
 import { MyMeetupsList } from './components';
 
 import { fetchMyMeetups } from './actions';
-import Colors from '../../../constants/Colors';
 import styles from './styles/HomeScreen';
 
 @connect(
@@ -18,22 +16,6 @@ import styles from './styles/HomeScreen';
 )
 
 class HomeScreen extends Component {
-  static navigationOptions = {
-    headerStyle: { backgroundColor: Colors.redColor, paddingRight: 5 },
-    headerRight: <MaterialIcons
-      name="add-circle"
-      size={30}
-      color={Colors.whiteColor}
-    />,
-    tabBarIcon: ({ tintColor }) => (
-      <FontAwesome
-        name="home"
-        size={25}
-        color={tintColor}
-      />
-    ),
-  }
-
   componentDidMount() {
     this.props.fetchMyMeetups();
   }

@@ -1,4 +1,9 @@
+import React from 'react';
 import { TabNavigator } from 'react-navigation';
+import { TouchableOpacity } from 'react-native';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import styles from '../screens/home/styles/HomeScreen';
+
 import Colors from '../../constants/Colors';
 
 import {
@@ -10,6 +15,30 @@ import {
 export default TabNavigator({
   Home: {
     screen: HomeScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: { backgroundColor: Colors.redColor },
+      headerRight: (
+        <TouchableOpacity
+          style={styles.iconAdd}
+          onPress={() => {
+            navigation.navigate('CreateMeetup');
+          }}
+        >
+          <MaterialIcons
+            name="add-circle"
+            size={30}
+            color={Colors.whiteColor}
+          />
+        </TouchableOpacity>
+      ),
+      tabBarIcon: ({ tintColor }) => (
+        <FontAwesome
+          name="home"
+          size={25}
+          color={tintColor}
+        />
+      ),
+    }),
   },
   Notifications: {
     screen: NotificationsScreen,
@@ -19,7 +48,7 @@ export default TabNavigator({
   },
 }, {
   swipeEnabled: false,
-  animationEnabled: true,
+  animationEnabled: false,
   tabBarPosition: 'bottom',
   tabBarOptions: {
     showLabel: false,

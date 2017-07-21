@@ -15,6 +15,9 @@ const styles = EStyleSheet.create({
   bottonContainer: {
     flex: 0.9,
   },
+  iconAdd: {
+    marginRight: 3,
+  },
 });
 
 export default styles;
