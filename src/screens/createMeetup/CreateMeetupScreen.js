@@ -5,16 +5,18 @@ import { FormLabel, FormInput, Button } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
+import { MeetupApi } from '../../../constants/api';
 import Colors from '../../../constants/Colors';
 import styles from './styles/CreateMeetupScreen';
 
+const meetupApi = new MeetupApi();
 class CreateMeetupScreen extends Component {
-  static navigationOptions = ({ goBack }) => ({
+  static navigationOptions = ({ navigation }) => ({
     title: 'Create a new Meetup',
-    titleStyle: { color: Colors.whiteColor },
+    // titleStyle: { color: Colors.whiteColor }, TODO not working
     headerStyle: { backgroundColor: Colors.redColor },
     headerLeft: (
-      <TouchableOpacity style={styles.iconClose} onPress={() => goBack()}>
+      <TouchableOpacity style={styles.iconClose} onPress={() => navigation.goBack()}>
         <MaterialIcons
           name="close"
           size={30}
@@ -59,6 +61,17 @@ class CreateMeetupScreen extends Component {
     return true;
   }
 
+  _createMeetup = async () => {
+    const { title, description, date } = this.state;
+
+    const res = await meetupApi.createGroupMeetups({
+      title,
+      description,
+      date,
+    });
+    console.log(res);
+  }
+
   render() {
     return (
       <View style={styles.root}>
@@ -93,7 +106,9 @@ class CreateMeetupScreen extends Component {
               title="Create Meetup"
               raised
               fontFamily="montserrat"
-              disabled={this._checkIfButtonSubmitDisabled}
+              disabled={this._checkIfButtonSubmitDisabled()}
+              backgroundColor={Colors.blackBlueColor}
+              onPress={this._createMeetup}
             />
           </View>
         </View>
