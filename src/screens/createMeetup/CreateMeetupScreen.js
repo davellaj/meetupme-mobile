@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import { MaterialIcons } from '@expo/vector-icons';
-import { FormLabel, FormInput, Button } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 
-import { MeetupApi } from '../../../constants/api';
+import { createMeetup } from './actions';
+import { CreateMeetupForm } from './components';
+import { LoadingScreen } from '../../commons/LoadingScreen';
 import Colors from '../../../constants/Colors';
 import styles from './styles/CreateMeetupScreen';
 
-const meetupApi = new MeetupApi();
-class CreateMeetupScreen extends Component {
+@connect(
+  state => ({
+    meetup: state.createMeetup,
+  }),
+  { createMeetup }
+)
+
+export default class CreateMeetupScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     title: 'Create a new Meetup',
     // titleStyle: { color: Colors.whiteColor }, TODO not working
@@ -29,8 +37,6 @@ class CreateMeetupScreen extends Component {
   state = {
     isDateTimePickerVisable: false,
     date: moment(),
-    title: '',
-    description: '',
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisable: true });
@@ -50,68 +56,43 @@ class CreateMeetupScreen extends Component {
     return 'Pick a meetup date';
   }
 
-  _changeTitle = title => this.setState({ title })
-  _changeDescription = description => this.setState({ description })
-
   _checkIfButtonSubmitDisabled() {
-    const { title, description, date } = this.state;
-    if (title.length > 5 && description.length > 5 && date > moment()) {
+    const { date } = this.state;
+    if (date > moment()) {
       return false;
     }
     return true;
   }
 
-  _createMeetup = async () => {
-    const { title, description, date } = this.state;
-
-    const res = await meetupApi.createGroupMeetups({
-      title,
-      description,
-      date,
-    });
-    console.log(res);
+  _createMeetup = async values => {
+    await this.props.createMeetup(values);
+    this.props.navigation.goBack();
   }
 
   render() {
+    console.log(`this.props.meetup is ${this.props.meetup}`);
+    // TODO debug how to destructure meetup
+    // const { meetup } = this.props;
+    // if (meetup.isLoading) {
+    //   return (
+    //     <View style={styles.root}>
+    //       <LoadingScreen />
+    //     </View>
+    //   );
+    // } else if (meetup.error.on) {
+    //   return (
+    //     <View style={styles.root}>
+    //       <Text>{meetup.error.message}</Text>
+    //     </View>
+    //   );
+    // }
     return (
       <View style={styles.root}>
-        <View style={styles.container}>
-          <View style={styles.item}>
-            <FormLabel fontFamily="montserrat">Title</FormLabel>
-            <FormInput
-              onChangeText={this._changeTitle}
-              value={this.state.title}
-              selectionColor={Colors.redColor}
-            />
-          </View>
-          <View style={styles.item}>
-            <FormLabel fontFamily="montserrat">Description</FormLabel>
-            <FormInput
-              onChangeText={this._changeDescription}
-              value={this.state.description}
-              selectionColor={Colors.redColor}
-              multiline
-            />
-          </View>
-          <View style={styles.item}>
-            <Button
-              onPress={this._showDateTimePicker}
-              title={this._checkTitle()}
-              raised
-              fontFamily="montserrat"
-            />
-          </View>
-          <View style={styles.buttonCreate}>
-            <Button
-              title="Create Meetup"
-              raised
-              fontFamily="montserrat"
-              disabled={this._checkIfButtonSubmitDisabled()}
-              backgroundColor={Colors.blackBlueColor}
-              onPress={this._createMeetup}
-            />
-          </View>
-        </View>
+        <CreateMeetupForm
+          createMeetup={this._createMeetup}
+          showDateTimePicker={this._showDateTimePicker}
+          checkTitle={this._checkTitle()}
+        />
         <DateTimePicker
           isVisible={this.state.isDateTimePickerVisable}
           onConfirm={this._handleDatePicker}
@@ -122,5 +103,3 @@ class CreateMeetupScreen extends Component {
     );
   }
 }
-
-export default CreateMeetupScreen;

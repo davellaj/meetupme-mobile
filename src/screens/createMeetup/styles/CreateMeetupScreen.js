@@ -5,19 +5,7 @@ const styles = EStyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  container: {
-    flex: 1,
-    width: '90%',
-  },
-  item: {
-    marginVertical: '2%',
-  },
-  buttonCreate: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: '10%',
-  },
+
   iconClose: {
     marginLeft: 3,
   },
